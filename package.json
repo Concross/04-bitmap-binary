@@ -4,6 +4,7 @@
   "description": "Lab for tranforming a bitmap",
   "main": "index.js",
   "scripts": {
+    "start": "node ./lab-connor/index.js ./lab-connor/test/asset/wolf.bmp ./lab-connor/test/asset/x-wolf.bmp invert",
     "test": "jest **/*.test.js",
     "lint": "eslint **/.js"
   },
