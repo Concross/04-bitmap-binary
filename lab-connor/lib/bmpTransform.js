@@ -4,16 +4,60 @@ const fs = require('fs');
 
 class BitmapTransform {
   constructor() {
-
+    this.buf = null;
+    this.fileHeaderBuf = null;
+    this.detailHeaderBuf = null;
+    this.fileHeader = null;
+    this.detailHeader = null;
   }
 
   open(file, callback) {
     fs.readFile(file, (err, data) => {
       if (err) callback(err);
 
-      callback(null, data);
+      this.buf = data;
+
+      _parseBitmapBuffer(this);
+
+      callback(null, this);
     });
   }
+
+  invert(bitmap, callback) {
+    console.log('inverting colors...');
+
+    console.log('colors inverted!');
+
+    callback(null, bitmap);
+  }
+
+  save(bitmap, outputFile, callback) {
+    // Write transformed bitmap to disk
+    // NOTE: transformed colors might still be encoded, they need to be raw
+    // NOTE: bitmap is NOT a Buffer, but fs.writeFile takes a Buffer
+    callback(null);
+  }
 }
+
+const _parseBitmapBuffer = function (self) {
+  self.fileHeaderBuf = self.buf.slice(0, 14);
+  self.fileHeader = {
+    fileType: self.fileHeaderBuf.toString('ascii', 0, 2),
+    fileSize: self.fileHeaderBuf.readUInt32LE(2),
+    reserved: self.fileHeaderBuf.readUInt32LE(6),
+    dataOffset: self.fileHeaderBuf.readUInt32LE(10),
+
+  };
+
+  self.detailHeaderBuf = self.buf.slice(14, 54);
+  self.detailHeader = {
+    headerSize: self.detailHeaderBuf.readUInt32LE(0),
+    pxWidth: self.detailHeaderBuf.readUInt32LE(4),
+    pxHeight: self.detailHeaderBuf.readUInt32LE(8),
+    planes: self.detailHeaderBuf.readUInt16LE(12),
+    bitPerPx: self.detailHeaderBuf.readUInt16LE(14),
+
+  };
+};
 
 module.exports = exports = BitmapTransform;

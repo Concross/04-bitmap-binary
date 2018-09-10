@@ -11,12 +11,33 @@ let inputFile = args[2], outputFile = args[3], transform = args[4];
 let msg = `Using ${transform} on ${inputFile} and saving to ${outputFile}...`;
 console.log(msg);
 
+const Event = require('events').EventEmitter;
+const ee = new Event();
 
 const BMPTransform = require('./lib/bmpTransform');
 let bmpTransform = new BMPTransform();
 
-bmpTransform.open(inputFile, (err, data) => {
+bmpTransform.open(inputFile, (err, bitmap) => {
   if (err) throw err;
 
-  console.log(data);
+  ee.emit('fileLoaded', bitmap);
+});
+
+ee.on('fileLoaded', (bitmap) => {
+  console.log(bitmap);
+
+  // TODO switch to bmpTransform[transform](...)
+  bmpTransform.invert(bitmap, (err, bitmap) => {
+    if (err) throw err;
+
+    ee.emit('transformed', bitmap);
+  });
+});
+
+ee.on('transformed', (bitmap) => {
+  bmpTransform.save(bitmap, outputFile, (err) => {
+    if (err) throw err;
+    console.log('File transformed and saved successfully!');
+
+  });
 });
