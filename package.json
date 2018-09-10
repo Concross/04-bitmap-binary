@@ -1,0 +1,23 @@
+{
+  "name": "04-bitmap-binary",
+  "version": "1.0.0",
+  "description": "Lab for tranforming a bitmap",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest **/*.test.js",
+    "lint": "eslint **/.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bend-javascript-401d1-lab/04-bitmap-binary.git"
+  },
+  "author": "Connor Crossley <cacrossley22@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bend-javascript-401d1-lab/04-bitmap-binary/issues"
+  },
+  "homepage": "https://github.com/bend-javascript-401d1-lab/04-bitmap-binary#readme",
+  "dependencies": {
+    "jest": "^23.6.0"
+  }
+}
