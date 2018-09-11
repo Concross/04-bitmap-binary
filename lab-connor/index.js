@@ -26,7 +26,7 @@ bmpTransform.open(inputFile, (err, bitmap) => {
 ee.on('fileLoaded', (bitmap) => {
 
   // TODO switch to bmpTransform[transform](...)
-  bmpTransform.invert(bitmap, (err, bitmap) => {
+  bmpTransform[transform](bitmap, (err, bitmap) => {
     if (err) throw err;
 
     ee.emit('transformed', bitmap);

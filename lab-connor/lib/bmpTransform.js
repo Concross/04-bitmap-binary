@@ -32,6 +32,27 @@ class BitmapTransform {
     callback(null, bitmap);
   }
 
+  darken(bitmap, callback) {
+
+    bitmap.imageBuf = new Buffer.from(Array.from(bitmap.imageBuf).map(bit => bit / 4));
+    callback(null, bitmap);
+  }
+
+  lighten(bitmap, callback) {
+    bitmap.imageBuf = new Buffer.from(Array.from(bitmap.imageBuf).map(bit => {
+      return bit > 220 ? 255 : bit + 35;
+    }));
+
+    callback(null, bitmap);
+  }
+
+  flipAndInvert(bitmap, callback) {
+    bitmap.imageBuf = new Buffer.from(Array.from(bitmap.imageBuf).reverse());
+
+    callback(null, bitmap);
+  }
+
+
   save(outputFile, bitmap, callback) {
     // Write transformed bitmap to disk
     // NOTE: transformed colors might still be encoded, they need to be raw
