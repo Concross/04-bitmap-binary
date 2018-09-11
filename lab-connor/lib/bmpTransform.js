@@ -7,6 +7,7 @@ class BitmapTransform {
     this.buf = null;
     this.fileHeaderBuf = null;
     this.detailHeaderBuf = null;
+    this.imageBuf = null;
     this.fileHeader = null;
     this.detailHeader = null;
   }
@@ -25,7 +26,12 @@ class BitmapTransform {
 
   invert(bitmap, callback) {
     console.log('inverting colors...');
+    console.log(bitmap.buf);
+    console.log(bitmap.imageBuf);
+    bitmap.imageBuf = new Buffer.from(Array.from(bitmap.imageBuf).map(bit => ~bit));
 
+    bitmap.buf.write(bitmap.imageBuf.toString('ascii'), 54);
+    console.log(bitmap.buf);
     console.log('colors inverted!');
 
     callback(null, bitmap);
@@ -61,6 +67,8 @@ const _parseBitmapBuffer = function (self) {
     bitPerPx: self.detailHeaderBuf.readUInt16LE(14),
 
   };
+
+  self.imageBuf = self.buf.slice(54);
 };
 
 module.exports = exports = BitmapTransform;

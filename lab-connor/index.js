@@ -24,7 +24,7 @@ bmpTransform.open(inputFile, (err, bitmap) => {
 });
 
 ee.on('fileLoaded', (bitmap) => {
-  console.log(bitmap);
+  // console.log(bitmap);
 
   // TODO switch to bmpTransform[transform](...)
   bmpTransform.invert(bitmap, (err, bitmap) => {
