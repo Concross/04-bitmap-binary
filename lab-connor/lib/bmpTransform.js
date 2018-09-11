@@ -31,10 +31,13 @@ class BitmapTransform {
     callback(null, bitmap);
   }
 
-  save(bitmap, outputFile, callback) {
+  save(outputFile, bitmap, callback) {
     // Write transformed bitmap to disk
     // NOTE: transformed colors might still be encoded, they need to be raw
     // NOTE: bitmap is NOT a Buffer, but fs.writeFile takes a Buffer
+    fs.writeFile(outputFile, bitmap.buf, (err) => {
+      if (err) throw err;
+    });
     callback(null);
   }
 }

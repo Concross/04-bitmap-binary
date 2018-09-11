@@ -35,7 +35,7 @@ ee.on('fileLoaded', (bitmap) => {
 });
 
 ee.on('transformed', (bitmap) => {
-  bmpTransform.save(bitmap, outputFile, (err) => {
+  bmpTransform.save(outputFile, bitmap, (err) => {
     if (err) throw err;
     console.log('File transformed and saved successfully!');
 
