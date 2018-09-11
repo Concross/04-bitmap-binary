@@ -28,9 +28,9 @@ class BitmapTransform {
     console.log('inverting colors...');
     console.log(bitmap.buf);
     console.log(bitmap.imageBuf);
-    bitmap.imageBuf = new Buffer.from(Array.from(bitmap.imageBuf).map(bit => ~bit));
+    bitmap.imageBuf = new Buffer.from(Array.from(bitmap.imageBuf).map(bit => 255 - bit));
 
-    bitmap.buf.write(bitmap.imageBuf.toString('ascii'), 54);
+    // bitmap.buf.write(bitmap.imageBuf.toString('ascii'), 54);
     console.log(bitmap.imageBuf);
     console.log('colors inverted!');
 
@@ -41,7 +41,8 @@ class BitmapTransform {
     // Write transformed bitmap to disk
     // NOTE: transformed colors might still be encoded, they need to be raw
     // NOTE: bitmap is NOT a Buffer, but fs.writeFile takes a Buffer
-    fs.writeFile(outputFile, bitmap.buf, (err) => {
+    let buf = new Buffer.concat([bitmap.fileHeaderBuf, bitmap.detailHeaderBuf, bitmap.imageBuf]);
+    fs.writeFile(outputFile, buf, (err) => {
       if (err) throw err;
     });
     callback(null);
