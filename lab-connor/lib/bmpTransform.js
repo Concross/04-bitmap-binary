@@ -26,12 +26,7 @@ class BitmapTransform {
 
   invert(bitmap, callback) {
     console.log('inverting colors...');
-    console.log(bitmap.buf);
-    console.log(bitmap.imageBuf);
     bitmap.imageBuf = new Buffer.from(Array.from(bitmap.imageBuf).map(bit => 255 - bit));
-
-    // bitmap.buf.write(bitmap.imageBuf.toString('ascii'), 54);
-    console.log(bitmap.imageBuf);
     console.log('colors inverted!');
 
     callback(null, bitmap);
