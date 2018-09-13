@@ -33,34 +33,49 @@ class BitmapTransform {
   }
 
   darken(bitmap, callback) {
-
+    console.log('darkening colors...');
     bitmap.imageBuf = new Buffer.from(Array.from(bitmap.imageBuf).map(bit => bit / 4));
+    console.log('colors darkened!');
+
     callback(null, bitmap);
   }
 
   lighten(bitmap, callback) {
+    console.log('lightening colors...');
     bitmap.imageBuf = new Buffer.from(Array.from(bitmap.imageBuf).map(bit => {
-      return bit > 220 ? 255 : bit + 35;
+      return bit > 200 ? 255 : bit + 55;
     }));
+    console.log('colors lightened!');
+
+    callback(null, bitmap);
+  }
+
+  pixelBurst(bitmap, callback) {
+    console.log('bursting pixels...');
+    bitmap.imageBuf = Buffer.from(Array.from(bitmap.imageBuf).map((bit, i) => {
+      return bit * bit;
+    }));
+    console.log('pixels bursted?');
 
     callback(null, bitmap);
   }
 
   flipAndInvert(bitmap, callback) {
+    console.log('flipping and inverting...');
     bitmap.imageBuf = new Buffer.from(Array.from(bitmap.imageBuf).reverse());
+    console.log('done!');
 
     callback(null, bitmap);
   }
 
 
   save(outputFile, bitmap, callback) {
-    // Write transformed bitmap to disk
-    // NOTE: transformed colors might still be encoded, they need to be raw
-    // NOTE: bitmap is NOT a Buffer, but fs.writeFile takes a Buffer
     let buf = new Buffer.concat([bitmap.fileHeaderBuf, bitmap.detailHeaderBuf, bitmap.imageBuf]);
+
     fs.writeFile(outputFile, buf, (err) => {
       if (err) throw err;
     });
+
     callback(null);
   }
 }

@@ -4,7 +4,7 @@
   "description": "Lab for tranforming a bitmap",
   "main": "index.js",
   "scripts": {
-    "start": "node ./lab-connor/index.js ./lab-connor/test/asset/duck.bmp ./lab-connor/test/asset/x-duck.bmp lighten",
+    "start": "node ./lab-connor/index.js ./lab-connor/test/asset/duck.bmp ./lab-connor/test/asset/x-duck.bmp something",
     "test": "jest **/*.test.js",
     "lint": "eslint **/.js"
   },
